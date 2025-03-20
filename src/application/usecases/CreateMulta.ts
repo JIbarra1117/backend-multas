@@ -1,5 +1,6 @@
 import { IMultaRepository } from "../../domain/repositories/IMultaRepository";
 import { Multa } from "../../domain/entities/Multa";
+import { multaSocket } from "../../index"; // Importamos la instancia de WebSocket
 
 export class CreateMulta {
   constructor(private multaRepository: IMultaRepository) {}
@@ -25,5 +26,13 @@ export class CreateMulta {
     );
 
     await this.multaRepository.create(multa);
+
+    // Emitir evento WebSocket cuando se crea una multa
+    multaSocket.emitirNuevaMulta({
+      usuarioMultadoId,
+      descripcion,
+      aprobaciones: 0,
+      aprobado: false,
+    });
   }
 }

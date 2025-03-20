@@ -1,16 +1,25 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import { connectDB } from './config/db';
 import authRoutes from './infrastructure/routes/authRoutes';
 import multaRoutes from './infrastructure/routes/multaRoutes';
 import { errorHandler } from './infrastructure/middleware/errorHandler';
-import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './config/swagger.json';
+import { MultaSocket } from './infrastructure/websockets/MultaSocket';
 
 dotenv.config();
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
+
 app.use(cors());
 app.use(express.json());
 
@@ -24,10 +33,26 @@ app.use(express.json());
     }
 })();
 
-// Documentación Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// Inicializar el manejador de WebSockets
+const multaSocket = new MultaSocket(io);
 
-// Rutas
+io.on("connection", (socket) => {
+    console.log(`🟢 Cliente conectado: ${socket.id}`);
+
+    socket.emit("mensaje", "Conexión exitosa al WebSocket!");
+
+    socket.on("disconnect", () => {
+        console.log(`🔴 Cliente desconectado: ${socket.id}`);
+    });
+});
+
+// Ruta de prueba para WebSocket
+app.get('/test-ws', (req, res) => {
+    io.emit("mensaje", "Mensaje de prueba enviado desde el servidor");
+    res.json({ message: "Mensaje de prueba enviado a WebSockets" });
+});
+
+// Rutas de la API
 app.use('/api/auth', authRoutes);
 app.use('/api/multas', multaRoutes);
 
@@ -35,4 +60,6 @@ app.use('/api/multas', multaRoutes);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Servidor corriendo en el puerto ${PORT}`));
+server.listen(PORT, () => console.log(`✅ Servidor corriendo en el puerto ${PORT}`));
+
+export { multaSocket };

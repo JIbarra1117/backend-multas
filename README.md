@@ -102,6 +102,11 @@ npm install express cors dotenv mysql2 jsonwebtoken bcryptjs
 npm install --save-dev typescript ts-node @types/node @types/express @types/cors @types/jsonwebtoken @types/bcryptjs nodemon
 npm install swagger-ui-express
 npm install --save-dev @types/swagger-ui-express
+npm install socket.io
+npm install --save-dev @types/socket.io
+### para prueba
+npm install socket.io-client
+npm install --save-dev @types/socket.io-client
 ```
 
 ### Inicializar TypeScript
