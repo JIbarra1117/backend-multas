@@ -2,6 +2,42 @@
 
 Este proyecto implementa una arquitectura de **estructura limpia** para gestionar un sistema de multas.
 
+## ✅ Funcionalidades Principales
+
+- **Autenticación de Usuarios** con JWT (Login, Registro).
+- **Creación de Multas** con una descripción obligatoria.
+- **Aprobación de Multas** por al menos dos usuarios antes de ser aceptadas.
+- **Protección de Rutas** mediante autenticación JWT.
+- **Manejo de Errores** con middleware centralizado.
+- **Documentación** con Swagger disponible en: [http://localhost:5000/api-docs](http://localhost:5000/api-docs).
+
+## ✅ Endpoints Disponibles
+
+### 📌 Autenticación (`/api/auth`)
+
+| Método | Ruta                  | Descripción                                |
+|--------|-----------------------|--------------------------------------------|
+| POST   | `/api/auth/register`  | Registra un nuevo usuario (admin/usuario). |
+| POST   | `/api/auth/login`     | Inicia sesión y devuelve un JWT.           |
+
+### 📌 Multas (`/api/multas`)
+
+| Método | Ruta                          | Descripción                                |
+|--------|-------------------------------|--------------------------------------------|
+| POST   | `/api/multas/create`          | Crea una nueva multa (requiere autenticación). |
+| POST   | `/api/multas/approve/:multaId`| Aprueba una multa (requiere autenticación). |
+
+## ✅ Arquitectura
+
+- **`src/application/usecases/`**: Casos de uso (lógica de negocio).
+- **`src/domain/entities/`**: Modelos de datos (User, Multa).
+- **`src/domain/repositories/`**: Interfaces de acceso a datos.
+- **`src/infrastructure/repositories/`**: Implementación de repositorios en MySQL.
+- **`src/infrastructure/controllers/`**: Controladores HTTP.
+- **`src/infrastructure/routes/`**: Rutas de Express.
+- **`src/infrastructure/middleware/`**: Middleware de autenticación y manejo de errores.
+- **`src/config/`**: Configuración de base de datos y Swagger.
+
 ## Estructura del Proyecto
 
 ```plaintext
@@ -44,13 +80,13 @@ backend-multas/
 
 ### Descripción de Carpetas
 
-- **application/**: Contiene los casos de uso que representan la lógica de negocio.
-- **domain/**: Define las entidades y los contratos de repositorios.
-- **infrastructure/**: Implementa adaptadores, controladores, rutas y conexiones a la base de datos.
-- **config/**: Archivos de configuración global del proyecto.
-- **index.ts**: Archivo principal que inicia la aplicación.
+- **`application/`**: Contiene los casos de uso que representan la lógica de negocio.
+- **`domain/`**: Define las entidades y los contratos de repositorios.
+- **`infrastructure/`**: Implementa adaptadores, controladores, rutas y conexiones a la base de datos.
+- **`config/`**: Archivos de configuración global del proyecto.
+- **`index.ts`**: Archivo principal que inicia la aplicación.
 
-## Comandos Utilizados
+## ✅ Comandos Utilizados
 
 ### Crear el Proyecto
 
@@ -74,9 +110,19 @@ npm install --save-dev @types/swagger-ui-express
 npx tsc --init
 ```
 
-## Notas Adicionales
+## ✅ Notas Adicionales
 
-- Asegúrate de configurar correctamente el archivo `.env` para las variables de entorno.
+- Configura correctamente el archivo `.env` para las variables de entorno.
 - Usa `nodemon` para reiniciar automáticamente el servidor durante el desarrollo.
+
+## ✅ Tecnologías Utilizadas
+
+- **Node.js + Express.js** 🚀
+- **TypeScript** 🏗️
+- **MySQL** 🗄️
+- **JWT** para autenticación 🔐
+- **Bcrypt.js** para encriptación de contraseñas 🔑
+- **Swagger** para documentación 📄
+- **Docker (opcional)** 🐳
 
 ¡Contribuye y mejora este proyecto siguiendo las mejores prácticas de desarrollo!
