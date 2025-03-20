@@ -1,0 +1,29 @@
+import { IMultaRepository } from "../../domain/repositories/IMultaRepository";
+import { Multa } from "../../domain/entities/Multa";
+
+export class CreateMulta {
+  constructor(private multaRepository: IMultaRepository) {}
+
+  async execute(
+    usuarioMultadoId: number,
+    usuarioAutorId: number,
+    descripcion: string
+  ) {
+    if (!descripcion) {
+      throw new Error("❌ La descripción de la multa es obligatoria");
+    }
+
+    const multa = new Multa(
+      0, // ID autoincrementable en la BD
+      usuarioMultadoId,
+      usuarioAutorId,
+      descripcion,
+      0, // Inicialmente sin aprobaciones
+      false, // No aprobada
+      new Date(), // Fecha de creación
+      new Date() // Fecha de actualización
+    );
+
+    await this.multaRepository.create(multa);
+  }
+}
