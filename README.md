@@ -93,6 +93,7 @@ backend-multas/
 ```bash
 mkdir backend-multas && cd backend-multas
 npm init -y
+npx ts-node src/pruebawebsocket.ts
 ```
 
 ### Instalar TypeScript y Herramientas Necesarias
