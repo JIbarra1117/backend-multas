@@ -1,10 +1,10 @@
-import { Multa } from '../entities/Multa';
+import { RegistroMulta } from "../entities/RegistroMulta";
 
 export interface IMultaRepository {
-    create(multa: Multa): Promise<void>;
-    findById(multaId: number): Promise<Multa | null>;
-    addApproval(multaId: number, usuarioId: number): Promise<void>;
-    countApprovals(multaId: number): Promise<number>;
-    approve(multaId: number): Promise<void>;
-    findAllTipos(): Promise<{ id: number; nombre: string }[]>;
+  create(multa: RegistroMulta): Promise<void>;
+  findById(multaId: number): Promise<RegistroMulta | null>;
+  addApproval(multaId: number, usuarioId: number): Promise<void>;
+  countApprovals(multaId: number): Promise<number>;
+  approve(multaId: number): Promise<void>;
+  findAll(): Promise<RegistroMulta[]>;
 }

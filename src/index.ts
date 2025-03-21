@@ -5,13 +5,14 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { connectDB } from "./config/db";
 import authRoutes from "./infrastructure/routes/authRoutes";
-import multaRoutes from "./infrastructure/routes/multaRoutes";
+import registroMultaRoutes from "./infrastructure/routes/registroMultaRoutes";
 import { errorHandler } from "./infrastructure/middleware/errorHandler";
 import { MultaSocket } from "./infrastructure/websockets/MultaSocket";
 import morgan from "morgan";
 import userRoutes from "./infrastructure/routes/userRoutes";
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './config/swagger.json';
+import multaCatalogoRoutes from "./infrastructure/routes/multaCatalogoRoutes";
 
 dotenv.config();
 
@@ -65,8 +66,9 @@ app.get("/test-ws", (req, res) => {
 
 // Rutas de la API
 app.use("/api/auth", authRoutes);
-app.use("/api/multas", multaRoutes);
+app.use("/api/registro-multas", registroMultaRoutes);
 app.use("/api/usuarios", userRoutes);
+app.use("/api/multas", multaCatalogoRoutes);
 
 // Middleware de manejo de errores
 app.use(errorHandler);

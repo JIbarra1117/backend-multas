@@ -8,7 +8,7 @@ const multaRepository = new MultaRepository();
 const createMultaUseCase = new CreateMulta(multaRepository);
 const approveMultaUseCase = new ApproveMulta(multaRepository);
 
-export const createMulta = async (req: Request, res: Response) => {
+export const createRegistroMulta = async (req: Request, res: Response) => {
   try {
     const { usuarioMultadoId, descripcion } = req.body;
     const usuarioAutorId = (req as any).user.id;
@@ -19,7 +19,7 @@ export const createMulta = async (req: Request, res: Response) => {
   }
 };
 
-export const approveMulta = async (req: Request, res: Response) => {
+export const approveRegistroMulta = async (req: Request, res: Response) => {
   try {
     const { multaId } = req.params;
     const usuarioId = (req as any).user.id;
@@ -33,7 +33,7 @@ export const approveMulta = async (req: Request, res: Response) => {
 const multaRepo = new MultaRepository();
 const getTiposMulta = new GetTiposMulta(multaRepo);
 
-export const listarTiposMulta = async (req: Request, res: Response) => {
+export const listarRegistroMultas = async (req: Request, res: Response) => {
   try {
     const tipos = await getTiposMulta.execute();
     res.json(tipos);

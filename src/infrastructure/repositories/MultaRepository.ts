@@ -1,5 +1,6 @@
 import { IMultaRepository } from "../../domain/repositories/IMultaRepository";
 import { connectDB } from "../../config/db";
+import { RegistroMulta } from "../../domain/entities/RegistroMulta";
 
 export class MultaRepository implements IMultaRepository {
   async create(multa: {
@@ -48,9 +49,11 @@ export class MultaRepository implements IMultaRepository {
     );
   }
 
-  async findAllTipos(): Promise<{ id: number; nombre: string }[]> {
+  async findAll(): Promise<RegistroMulta[]> {
     const db = await connectDB();
-    const [rows] = await db.execute("SELECT id, descripcion FROM multas");
-    return rows as { id: number; nombre: string }[];
+    const [rows] = await db.execute(
+      "SELECT id, usuario_multado_id, usuario_autor_id, multa_id, descripcion, fecha_aplicacion, aprobaciones, aprobado FROM registro_multas"
+    );
+    return rows as RegistroMulta[];
   }
 }
