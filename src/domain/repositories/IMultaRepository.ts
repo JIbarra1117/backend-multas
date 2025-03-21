@@ -6,4 +6,5 @@ export interface IMultaRepository {
     addApproval(multaId: number, usuarioId: number): Promise<void>;
     countApprovals(multaId: number): Promise<number>;
     approve(multaId: number): Promise<void>;
+    findAllTipos(): Promise<{ id: number; nombre: string }[]>;
 }

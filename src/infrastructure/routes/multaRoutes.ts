@@ -1,6 +1,7 @@
 import express from 'express';
 import { createMulta, approveMulta } from '../controllers/MultaController';
 import { authMiddleware } from '../middleware/authMiddleware';
+import { listarTiposMulta } from "../controllers/MultaController";
 
 const router = express.Router();
 
@@ -9,5 +10,8 @@ router.post('/create', authMiddleware, createMulta);
 
 // Ruta para aprobar una multa (requiere autenticación)
 router.post('/approve/:multaId', authMiddleware, approveMulta);
+
+// Ruta para obtener las multas
+router.get("/", authMiddleware, listarTiposMulta);
 
 export default router;

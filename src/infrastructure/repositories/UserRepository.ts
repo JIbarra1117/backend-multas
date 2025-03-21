@@ -15,4 +15,10 @@ export class UserRepository implements IUserRepository {
         await db.execute('INSERT INTO usuarios (nombre, email, password_hash, rol) VALUES (?, ?, ?, ?)', 
             [user.nombre, user.email, user.password_hash, user.rol]);
     }
+
+    async findAll(): Promise<User[]> {
+        const db = await connectDB();
+        const [rows] = await db.execute("SELECT id, nombre, email, rol FROM usuarios");
+        return rows as User[];
+}   
 }

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { MultaRepository } from "../../infrastructure/repositories/MultaRepository";
 import { CreateMulta } from "../../application/usecases/CreateMulta";
 import { ApproveMulta } from "../../application/usecases/ApproveMulta";
+import { GetTiposMulta } from "../../application/usecases/GetTiposMulta";
 
 const multaRepository = new MultaRepository();
 const createMultaUseCase = new CreateMulta(multaRepository);
@@ -26,5 +27,17 @@ export const approveMulta = async (req: Request, res: Response) => {
     res.status(200).json({ message: "✅ Multa aprobada correctamente" });
   } catch (error) {
     res.status(400).json({ error: (error as Error).message });
+  }
+};
+
+const multaRepo = new MultaRepository();
+const getTiposMulta = new GetTiposMulta(multaRepo);
+
+export const listarTiposMulta = async (req: Request, res: Response) => {
+  try {
+    const tipos = await getTiposMulta.execute();
+    res.json(tipos);
+  } catch (error) {
+    res.status(500).json({ error: "Error al listar tipos de multa" });
   }
 };
