@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
-import { MultaRepository } from "../../infrastructure/repositories/MultaRepository";
-import { CreateMulta } from "../../application/usecases/CreateMulta";
+import { RegistroMultaRepository } from "../repositories/RegistroMultaRepository";
+import { CreateMulta } from "../../application/usecases/CreateRegistroMulta";
 import { ApproveMulta } from "../../application/usecases/ApproveMulta";
 import { GetTiposMulta } from "../../application/usecases/GetTiposMulta";
+import { GetResumenPorUsuario } from "../../application/usecases/GetResumenPorUsuario";
 
-const multaRepository = new MultaRepository();
+const multaRepository = new RegistroMultaRepository();
 const createMultaUseCase = new CreateMulta(multaRepository);
 const approveMultaUseCase = new ApproveMulta(multaRepository);
 
 export const createRegistroMulta = async (req: Request, res: Response) => {
   try {
-    const { usuarioMultadoId, descripcion } = req.body;
+    const { multaId, usuarioMultadoId, descripcion } = req.body;
     const usuarioAutorId = (req as any).user.id;
-    await createMultaUseCase.execute(usuarioMultadoId, usuarioAutorId, descripcion);
+    await createMultaUseCase.execute(multaId, usuarioMultadoId, usuarioAutorId, descripcion);
     res.status(201).json({ message: "✅ Multa registrada correctamente" });
   } catch (error) {
     res.status(400).json({ error: (error as Error).message });
@@ -30,14 +31,26 @@ export const approveRegistroMulta = async (req: Request, res: Response) => {
   }
 };
 
-const multaRepo = new MultaRepository();
-const getTiposMulta = new GetTiposMulta(multaRepo);
+const multaRepo = new RegistroMultaRepository();
+const getRegistroMulta = new GetTiposMulta(multaRepo);
 
 export const listarRegistroMultas = async (req: Request, res: Response) => {
   try {
-    const tipos = await getTiposMulta.execute();
+    const tipos = await getRegistroMulta.execute();
     res.json(tipos);
   } catch (error) {
     res.status(500).json({ error: "Error al listar tipos de multa" });
+  }
+};
+
+const getResumenPorUsuarioUseCase = new GetResumenPorUsuario(multaRepo);
+
+export const getResumenPorUsuario = async (req: Request, res: Response) => {
+  try {
+    const resumen = await getResumenPorUsuarioUseCase.execute();
+    res.json(resumen);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error al obtener resumen" });
   }
 };

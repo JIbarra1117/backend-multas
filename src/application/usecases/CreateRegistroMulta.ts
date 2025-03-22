@@ -1,11 +1,12 @@
-import { IMultaRepository } from "../../domain/repositories/IMultaRepository";
+import { IRegistroMultaRepository } from "../../domain/repositories/IRegistroMultaRepository";
 import { RegistroMulta } from "../../domain/entities/RegistroMulta";
 import { multaSocket } from "../../index"; // Importamos la instancia de WebSocket
 
 export class CreateMulta {
-  constructor(private multaRepository: IMultaRepository) {}
+  constructor(private multaRepository: IRegistroMultaRepository) {}
 
   async execute(
+    multaId:number,
     usuarioMultadoId: number,
     usuarioAutorId: number,
     descripcion: string
@@ -16,6 +17,7 @@ export class CreateMulta {
 
     const multa = new RegistroMulta(
       0, // ID autoincrementable en la BD
+      multaId,
       usuarioMultadoId,
       usuarioAutorId,
       descripcion,

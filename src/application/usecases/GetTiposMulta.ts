@@ -1,7 +1,7 @@
-import { IMultaRepository } from "../../domain/repositories/IMultaRepository";
+import { IRegistroMultaRepository } from "../../domain/repositories/IRegistroMultaRepository";
 
 export class GetTiposMulta {
-  constructor(private multaRepository: IMultaRepository) {}
+  constructor(private multaRepository: IRegistroMultaRepository) {}
 
   async execute() {
     return await this.multaRepository.findAll();

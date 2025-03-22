@@ -1,6 +1,7 @@
 export class RegistroMulta {
   constructor(
     public id: number,
+    public multaId: number,
     public usuarioMultadoId: number,
     public usuarioAutorId: number,
     public descripcion: string,
