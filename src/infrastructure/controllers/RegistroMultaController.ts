@@ -22,7 +22,9 @@ export const createRegistroMulta = async (req: Request, res: Response) => {
 
 export const approveRegistroMulta = async (req: Request, res: Response) => {
   try {
+    // Se obtiene el id de la multa de los parámetros de la URL
     const { multaId } = req.params;
+    // Se obtiene el usuario del middleware de autenticación
     const usuarioId = (req as any).user.id;
     await approveMultaUseCase.execute(parseInt(multaId), usuarioId);
     res.status(200).json({ message: "✅ Multa aprobada correctamente" });
