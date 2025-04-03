@@ -13,12 +13,24 @@ export class ApproveMulta {
       throw new Error("✅ La multa ya fue aprobada");
     }
 
-    await this.multaRepository.addApproval(multaId, usuarioId);
+    const approveCount = await this.multaRepository.getCountAprove(
+      multaId,
+      usuarioId
+    );
+
+    console.log(JSON.stringify(approveCount));
 
     const totalAprobaciones = await this.multaRepository.countApprovals(
       multaId
     );
-    if (totalAprobaciones >= 2) {
+    console.log(totalAprobaciones);
+
+    if (!(approveCount == 0)) {
+      throw new Error("✅ La multa ya fue aprobada");
+    }
+
+    await this.multaRepository.addApproval(multaId, usuarioId);
+    if (totalAprobaciones >= 3) {
       await this.multaRepository.approve(multaId);
     }
   }

@@ -20,5 +20,5 @@ export class UserRepository implements IUserRepository {
         const db = await connectDB();
         const [rows] = await db.execute("SELECT id, nombre, email, rol FROM usuarios");
         return rows as User[];
-}   
+    }   
 }

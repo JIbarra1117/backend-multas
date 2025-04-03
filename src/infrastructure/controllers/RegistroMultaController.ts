@@ -4,6 +4,8 @@ import { CreateMulta } from "../../application/usecases/CreateRegistroMulta";
 import { ApproveMulta } from "../../application/usecases/ApproveMulta";
 import { GetTiposMulta } from "../../application/usecases/GetTiposMulta";
 import { GetResumenPorUsuario } from "../../application/usecases/GetResumenPorUsuario";
+import { GetMultasPendientesParaAprobar } from "../../application/usecases/GetMultasPendientesParaAprobar";
+import { GetMultasAprobadasPorUsuario } from "../../application/usecases/GetMultasAprobadasPorUsuario";
 
 const multaRepository = new RegistroMultaRepository();
 const createMultaUseCase = new CreateMulta(multaRepository);
@@ -54,5 +56,29 @@ export const getResumenPorUsuario = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error al obtener resumen" });
+  }
+};
+
+export const getPendientesParaAprobar = async (req: Request, res: Response) => {
+  const userId = Number(req.params.userId);
+  const usecase = new GetMultasPendientesParaAprobar(new RegistroMultaRepository());
+
+  try {
+    const multas = await usecase.execute(userId);
+    res.json(multas);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener multas pendientes" });
+  }
+};
+
+export const getAprobadasPorUsuario = async (req: Request, res: Response) => {
+  const userId = Number(req.params.userId);
+  const usecase = new GetMultasAprobadasPorUsuario(new RegistroMultaRepository());
+
+  try {
+    const multas = await usecase.execute(userId);
+    res.json(multas);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener multas aprobadas por usuario" });
   }
 };

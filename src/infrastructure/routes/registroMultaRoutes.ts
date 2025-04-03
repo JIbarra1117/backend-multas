@@ -1,5 +1,5 @@
 import express from 'express';
-import { createRegistroMulta, approveRegistroMulta, getResumenPorUsuario } from '../controllers/RegistroMultaController';
+import { createRegistroMulta, approveRegistroMulta, getResumenPorUsuario, getPendientesParaAprobar, getAprobadasPorUsuario } from '../controllers/RegistroMultaController';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { listarRegistroMultas } from "../controllers/RegistroMultaController";
 
@@ -16,5 +16,11 @@ router.get("/", authMiddleware, listarRegistroMultas);
 
 // Ruta para obtener historial de multas por usuario
 router.get("/resumen-por-usuario", authMiddleware, getResumenPorUsuario);
+
+// Ruta para obtener historial de multas pendientes por aprobar
+router.get('/pendientes/:userId', authMiddleware, getPendientesParaAprobar);
+
+// Ruta para obtener historial de multas aprobadas
+router.get('/aprobadas/:userId', authMiddleware, getAprobadasPorUsuario);
 
 export default router;

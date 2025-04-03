@@ -8,5 +8,8 @@ export interface IRegistroMultaRepository {
   countApprovals(multaId: number): Promise<number>;
   approve(multaId: number): Promise<void>;
   findAll(): Promise<HistorialMulta[]>;
-  obtenerResumenPorUsuario():Promise<any[]>
+  obtenerResumenPorUsuario():Promise<any[]>;
+  getCountAprove(registro_multa_id: number, usuario_id: number):Promise<number>;
+  getPendientesParaAprobar(userId: number): Promise<HistorialMulta[]>;
+  getAprobadasPorUsuario(userId: number): Promise<HistorialMulta[]>;  
 }
