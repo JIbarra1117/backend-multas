@@ -10,8 +10,8 @@ import { errorHandler } from "./infrastructure/middleware/errorHandler";
 import { MultaSocket } from "./infrastructure/websockets/MultaSocket";
 import morgan from "morgan";
 import userRoutes from "./infrastructure/routes/userRoutes";
-import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './config/swagger.json';
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./config/swagger.json";
 import multaCatalogoRoutes from "./infrastructure/routes/multaCatalogoRoutes";
 
 dotenv.config();
@@ -22,7 +22,7 @@ const app = express();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -73,8 +73,8 @@ app.use("/api/multas", multaCatalogoRoutes);
 // Middleware de manejo de errores
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () =>
+const PORT = parseInt(process.env.PORT || "5000");
+server.listen(PORT, "0.0.0.0", () =>
   console.log(`✅ Servidor corriendo en el puerto ${PORT}`)
 );
 
