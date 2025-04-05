@@ -14,3 +14,6 @@ logs/
 # Ignorar configuracion de .vscode
 .vscode/
 
+# Build directories
+dist/
+production/
