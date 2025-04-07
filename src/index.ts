@@ -65,6 +65,11 @@ app.get("/test-ws", (req, res) => {
 });
 
 // Rutas de la API
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Bienvenido a la API de Multas",
+  });
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/registro-multas", registroMultaRoutes);
 app.use("/api/usuarios", userRoutes);
